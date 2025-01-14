@@ -8,7 +8,7 @@
 
 #### Process new receipt
 
-```http
+```
   POST /receipts/process
 ```
 
@@ -18,7 +18,7 @@
 
 #### Get receipt
 
-```http
+```
   GET /receipts/${id}
 ```
 
@@ -28,7 +28,7 @@
 
 #### Get receipt points
 
-```http
+```
   GET /receipts/${id}/points
 ```
 
