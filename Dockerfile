@@ -1,11 +1,16 @@
-FROM python:3.11-slim
-
+FROM python:3.12
 WORKDIR /app
 
-COPY ./reqs.txt /app/reqs.txt
+# Install the application dependencies
+COPY reqs.txt ./
+RUN pip install --no-cache-dir -r reqs.txt
 
-RUN pip install -r reqs.txt
+# Copy in the source code
+COPY . ./app
+EXPOSE 8000
 
-COPY . /app
+# Setup an app user so the container doesn't run as the root user
+RUN useradd app
+USER app
 
-CMD ["fastapi", "run", "app/main.py", "--port", "8000"]
+CMD ["fastapi", "run", "--host", "localhost", "--port", "8000"]
