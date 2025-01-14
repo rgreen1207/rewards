@@ -1,3 +1,4 @@
+import re
 import json
 import math
 import string
@@ -45,7 +46,9 @@ class ReceiptProcessActions:
     
     @staticmethod
     def process_retailer_points(retailer):
-        return len(retailer.strip(string.punctuation))
+        #remove punctuation and spaces, return length
+        retailer = re.sub(r'[^a-zA-Z0-9]', '', retailer)
+        return len(retailer) 
 
     @staticmethod
     def process_item_points(items):
@@ -60,11 +63,12 @@ class ReceiptProcessActions:
     
     @staticmethod
     def process_receipt_total_points(total):
-        if total % 1 == 00: #whole dollar amount
-            return 50
-        elif (total % 1) % .25 == 0: #evenly divisible by .25
-            return 25
-        return 0 #no points for other amounts
+        points = 0
+        if (total % 1) == 00: #whole dollar amount
+            points += 50
+        if (total % 1) % .25 == 0: #evenly divisible by .25
+            points += 25
+        return points
     
     @staticmethod
     def process_date_points(purchase_date):
