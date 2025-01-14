@@ -1,4 +1,6 @@
-FROM python:3.12
+FROM python:3.11-slim
+
+# Set the working directory
 WORKDIR /app
 
 # Install the application dependencies
@@ -6,11 +8,10 @@ COPY reqs.txt ./
 RUN pip install --no-cache-dir -r reqs.txt
 
 # Copy in the source code
-COPY . ./app
-EXPOSE 8000
+COPY . .
 
-# Setup an app user so the container doesn't run as the root user
-RUN useradd app
-USER app
+# Expose the port the app runs on
+EXPOSE 8080
 
-CMD ["fastapi", "run", "--host", "localhost", "--port", "8000"]
+# Command to run the FastAPI app
+CMD ["fastapi", "run", "main.py", "--host", "0.0.0.0", "--port", "8080"]
