@@ -36,7 +36,11 @@
 | :-------- | :------- | :-------------------------------- |
 | `id`      | `uuid` | **Required**. Id of receipt to fetch points |
 
-
+## Docker Image
+```bash
+docker built -t {name} .
+docker run -d -p 127.0.0.1:8080:8080 {name}
+```
 
 ## Running Tests
 
