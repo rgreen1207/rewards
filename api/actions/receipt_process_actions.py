@@ -92,6 +92,3 @@ class ReceiptProcessActions:
             num_receipts = len(database_object_users[str(userID)])
             return (num_receipts-1)*10
         return 0
-    
-    def get_all():
-        return database_object_receipts.json()

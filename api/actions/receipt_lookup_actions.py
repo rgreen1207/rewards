@@ -13,3 +13,6 @@ class ReceiptLookupActions:
     @classmethod
     def get_points(cls, receipt_id):
         return cls.get_receipt(receipt_id).points
+    
+    def get_all():
+        return database_object_receipts
