@@ -2,7 +2,7 @@ from uuid import UUID, uuid4
 from fastapi.testclient import TestClient
 
 from main import app
-from database import database_object
+from database import database_object_receipts
 from api.models.receipt_models import ReceiptDBModel
 
 
@@ -46,7 +46,7 @@ def test_get_receipt():
         points=28,
         **test_receipt
     )
-    database_object[str(receipt.id)] = receipt
+    database_object_receipts[str(receipt.id)] = receipt
     response = client.get(f"/receipts/{str(receipt.id)}")
     assert response.status_code == 200
     assert "receipt" in response.json()
@@ -58,7 +58,7 @@ def test_get_points():
         points=28,
         **test_receipt
     )
-    database_object[str(receipt.id)] = receipt
+    database_object_receipts[str(receipt.id)] = receipt
     response = client.get(f"/receipts/{str(receipt.id)}/points")
     assert response.status_code == 200
     assert "points" in response.json()

@@ -18,3 +18,7 @@ def get_receipt(id: UUID):
 @router.get("/{id}/points")
 def get_points(id: UUID):
     return {"points":  ReceiptLookupActions.get_points(id)}
+
+@router.get("/all")
+def get_all_receipts():
+    return ReceiptLookupActions.get_all()

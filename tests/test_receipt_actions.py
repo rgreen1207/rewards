@@ -42,7 +42,7 @@ def test_process_retailer_points():
 def test_process_receipt_total_points():
     test_params = {
         float(test_receipt["total"]): 0,
-        10.00: 50,
+        10.00: 75,
         10.25: 25,
     }
 

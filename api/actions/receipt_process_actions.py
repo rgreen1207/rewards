@@ -5,7 +5,7 @@ import math
 from uuid import uuid4
 from datetime import date
 
-from database import database_object
+from database import database_object_receipts, database_object_users
 from api.models import ReceiptDBModel
 
 class ReceiptProcessActions:
@@ -30,14 +30,20 @@ class ReceiptProcessActions:
         points += cls.process_time_points(receipt.purchaseTime)
         return points
     
-    @staticmethod
-    def save_receipt(receipt):    
+    @classmethod
+    def save_receipt(cls, receipt):    
         """
         normally, the model would dump to a JSON object with each key being the column name
         later, when the items are retrieved as a JSON object, it would be loaded back into the model
         in this case the full model is being saved for simplicity     
         """
-        database_object[str(receipt.id)] = receipt
+        if str(receipt.userID) in database_object_users.keys():
+            database_object_users[str(receipt.userID)].append(receipt.id)
+        else:
+            database_object_users[str(receipt.userID)] = [receipt.id]
+
+        receipt.bonus_points = cls.process_bonus_points(receipt.userID)
+        database_object_receipts[str(receipt.id)] = receipt 
     
     @staticmethod
     def generate_receipt_id():
@@ -80,3 +86,12 @@ class ReceiptProcessActions:
         # 10 points for purchases between 2pm and 4pm
         time_split = time.split(':')
         return 10 if int(time_split[0]) in range(14, 16) else 0
+    
+    def process_bonus_points(userID):
+        if str(userID) in database_object_users.keys():
+            num_receipts = len(database_object_users[str(userID)])
+            return (num_receipts-1)*10
+        return 0
+    
+    def get_all():
+        return database_object_receipts.json()

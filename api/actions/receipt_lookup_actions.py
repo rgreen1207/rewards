@@ -1,12 +1,12 @@
 from fastapi import HTTPException
-from database import database_object
+from database import database_object_receipts
 
 class ReceiptLookupActions:
 
     @staticmethod
     def get_receipt(receipt_id):
         try:
-            return database_object[str(receipt_id)]
+            return database_object_receipts[str(receipt_id)]
         except KeyError:
             raise HTTPException(status_code=404, detail= f"Receipt id: {receipt_id} not found")
 
